@@ -13,7 +13,7 @@ Um pequeno sistema de ERP desenvolvido em **CodeIgniter 3** para o teste da Mont
 
 ## ⚙️ Tecnologias Utilizadas
 
-* **Backend:** PHP 7.x
+* **Backend:** PHP 7.4.33
 * **Framework:** CodeIgniter 3.1.13
 * **Frontend:** Bootstrap 4
 * **Banco de Dados:** MySQL
