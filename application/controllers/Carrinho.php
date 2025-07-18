@@ -57,7 +57,7 @@ class Carrinho extends CI_Controller
         redirect('produtos');
     }
 
-    public function update()
+     public function update()
     {
         $cart_data = $this->input->post('cart');
         $update_data = [];
@@ -80,13 +80,15 @@ class Carrinho extends CI_Controller
 
             $update_data[] = [
                 'rowid' => $rowid,
-                'qty' => $new_qty
+                'qty'   => $new_qty
             ];
         }
 
         if (!empty($update_data)) {
             $this->cart->update($update_data);
         }
+
+        $this->session->set_flashdata('old_input', $this->input->post());
 
         redirect('carrinho');
     }

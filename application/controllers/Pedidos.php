@@ -70,7 +70,7 @@ class Pedidos extends CI_Controller
         if ($this->input->post('complemento')) {
             $endereco_completo .= ' - ' . $this->input->post('complemento');
         }
-        $endereco_completo .= ' - ' . $this->input->post('bairro') . ', ' . $this->input->post('cidade') . '/' . $this->input->post('uf');
+        $endereco_completo .= ' - ' . $this->input->post('bairro') . ', ' . $this->input->post('cidade') . '/' . $this->input->post('uf') . ' - CEP: ' . $this->input->post('cep');
 
         $subtotal = $this->cart->total();
         $frete = 20.00;
@@ -140,8 +140,8 @@ class Pedidos extends CI_Controller
         $config['protocol']    = 'smtp';
         $config['smtp_host']   = 'ssl://smtp.googlemail.com';
         $config['smtp_port']   = 465;
-        $config['smtp_user']   = 'danielduartefilho.df@gmail.com';
-        $config['smtp_pass']   = 'npkr zpjy lqod rfpl';
+        $config['smtp_user']   = 'email_usuario';
+        $config['smtp_pass']   = 'senha_aplicacao';
         $config['mailtype']    = 'html';
         $config['charset']     = 'utf-8';
         $config['newline']     = "\r\n";

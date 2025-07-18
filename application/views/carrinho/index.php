@@ -1,10 +1,14 @@
+<?php
+$old_input = $this->session->flashdata('old_input');
+?>
+
 <h1>🛒 Seu Carrinho</h1>
 <a href="<?php echo site_url('produtos'); ?>">Continuar Comprando</a>
 <hr>
 
 <?php if (!empty($itens_carrinho)): ?>
 
-    <form action="<?php echo site_url('carrinho/update'); ?>" method="post">
+    <form action="<?php echo site_url('carrinho/update'); ?>" method="post" id="update-cart-form">
         <div class="table-responsive">
             <table class="table">
                 <thead class="thead-light">
@@ -81,42 +85,43 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="nome_cliente">Nome Completo</label>
-                                <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" required>
+                                <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" value="<?php echo isset($old_input['nome_cliente']) ? $old_input['nome_cliente'] : ''; ?>" required>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="email_cliente">E-mail</label>
-                                <input type="email" class="form-control" id="email_cliente" name="email_cliente" required>
+                                <input type="email" class="form-control" id="email_cliente" name="email_cliente" value="<?php echo isset($old_input['email_cliente']) ? $old_input['email_cliente'] : ''; ?>" required>
                             </div>
                         </div>
+
                         <div class="row">
-                            <input type="hidden" id="form-cep" name="cep">
+                            <input type="hidden" id="form-cep" name="cep" value="<?php echo isset($old_input['cep']) ? $old_input['cep'] : ''; ?>">
                             <div class="col-md-8 form-group">
                                 <label for="logradouro">Logradouro (Rua, Av.)</label>
-                                <input type="text" class="form-control" id="logradouro" name="logradouro" required>
+                                <input type="text" class="form-control" id="logradouro" name="logradouro" value="<?php echo isset($old_input['logradouro']) ? $old_input['logradouro'] : ''; ?>" required>
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="numero">Número</label>
-                                <input type="text" class="form-control" id="numero" name="numero" required>
+                                <input type="text" class="form-control" id="numero" name="numero" value="<?php echo isset($old_input['numero']) ? $old_input['numero'] : ''; ?>" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="complemento">Complemento (Opcional)</label>
-                                <input type="text" class="form-control" id="complemento" name="complemento">
+                                <input type="text" class="form-control" id="complemento" name="complemento" value="<?php echo isset($old_input['complemento']) ? $old_input['complemento'] : ''; ?>">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="bairro">Bairro</label>
-                                <input type="text" class="form-control" id="bairro" name="bairro" required>
+                                <input type="text" class="form-control" id="bairro" name="bairro" value="<?php echo isset($old_input['bairro']) ? $old_input['bairro'] : ''; ?>" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-8 form-group">
                                 <label for="cidade">Cidade</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade" required>
+                                <input type="text" class="form-control" id="cidade" name="cidade" value="<?php echo isset($old_input['cidade']) ? $old_input['cidade'] : ''; ?>" required>
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="uf">Estado (UF)</label>
-                                <input type="text" class="form-control" id="uf" name="uf" required maxlength="2">
+                                <input type="text" class="form-control" id="uf" name="uf" value="<?php echo isset($old_input['uf']) ? $old_input['uf'] : ''; ?>" required maxlength="2">
                             </div>
                         </div>
                     </div>
@@ -161,6 +166,29 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#update-cart-form').submit(function() {
+            var updateForm = $(this);
+            updateForm.find('input[type="hidden"][data-from-checkout]').remove();
+
+            updateForm.append($('<input>', {
+                type: 'hidden',
+                name: 'cep_display',
+                value: $('#cep').val(),
+                'data-from-checkout': 'true'
+            }));
+
+            $('#checkout-form').find('input[name]').each(function() {
+                updateForm.append(
+                    $('<input>', {
+                        type: 'hidden',
+                        name: $(this).attr('name'),
+                        value: $(this).val(),
+                        'data-from-checkout': 'true'
+                    })
+                );
+            });
+        });
+
         function preencherEndereco(data) {
             $('#logradouro').val(data.logradouro);
             $('#bairro').val(data.bairro);
