@@ -12,21 +12,27 @@ class Produtos extends CI_Controller
 
     public function index()
     {
+        $data['title'] = "Gerenciar Produtos";
         $data['produtos'] = $this->produto_model->getAllProdutosComEstoque();
+
+        $this->load->view('templates/header', $data);
         $this->load->view('produtos/gerenciar', $data);
+        $this->load->view('templates/footer');
     }
 
     public function edit($variacao_id)
     {
         $data['produto'] = $this->produto_model->getDetalhesProduto($variacao_id);
         $data['produtos'] = $this->produto_model->getAllProdutosComEstoque();
+        $this->load->view('templates/header', $data);
         $this->load->view('produtos/gerenciar', $data);
+        $this->load->view('templates/footer');
     }
 
     public function store()
     {
         $data = $this->input->post();
-        if ($this->produto_model->create_produto($data)) {
+        if ($this->produto_model->createProduto($data)) {
         } else {
         }
         redirect('produtos');

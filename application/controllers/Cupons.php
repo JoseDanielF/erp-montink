@@ -13,8 +13,10 @@ class Cupons extends CI_Controller
 
     public function index()
     {
-        $data['cupons'] = $this->cupom_model->get_all();
+        $data['cupons'] = $this->cupom_model->getAllCupons();
+        $this->load->view('templates/header', $data);
         $this->load->view('cupons/gerenciar', $data);
+        $this->load->view('templates/footer');
     }
 
     public function store()
@@ -40,9 +42,9 @@ class Cupons extends CI_Controller
         }
     }
 
-    public function altera_status_cupom($id)
+    public function alteraStatusCupom($id)
     {
-        $this->cupom_model->altera_status_cupom($id);
+        $this->cupom_model->alteraStatusCupom($id);
         redirect('cupons');
     }
 }

@@ -23,12 +23,12 @@ class Webhook extends CI_Controller
             return;
         }
 
-        if (strtolower($status) === 'cancelado') {
+        if (strtolower($status) === 'Cancelado') {
             $this->pedido_model->deletePedido($pedido_id);
         } else {
             $this->pedido_model->updateStatus($pedido_id, $status);
         }
 
-        $this->output->set_status_header(200)->set_output('Webhook recebido.');
+        $this->output->set_status_header(200)->set_output('Status atualizado com sucesso!');
     }
 }

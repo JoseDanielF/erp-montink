@@ -25,7 +25,7 @@ class Produto_model extends CI_Model
         return $this->db->get()->row_array();
     }
 
-    public function create_produto($data)
+    public function createProduto($data)
     {
         $this->db->trans_start();
 
@@ -57,5 +57,17 @@ class Produto_model extends CI_Model
         $this->db->set('quantidade', 'quantidade - ' . (int)$quantidade, FALSE);
         $this->db->where('variacao_id', $variacao_id);
         $this->db->update('estoque');
+    }
+
+    public function getEstoquePorIDVariacao($variacao_id)
+    {
+        $this->db->select('quantidade');
+        $this->db->from('estoque');
+        $this->db->where('variacao_id', $variacao_id);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->row()->quantidade;
+        }
+        return 0;
     }
 }
